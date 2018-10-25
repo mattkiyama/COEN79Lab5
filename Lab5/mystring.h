@@ -137,7 +137,7 @@ namespace coen79_lab5
         void replace(const string& source, unsigned int position);
         
         // CONSTANT MEMBER FUNCTIONS
-        size_t length( ) const { return current_length; }
+        size_t length( ) const;
         char operator [ ](size_t position) const;
         int search(char c) const;
         int search(const string& substring) const;

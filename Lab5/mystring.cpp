@@ -75,18 +75,80 @@ namespace coen79_lab5{
         copy(characters, characters+allocated, n);
     }
     
-    string& operator =(const string& source);
-    void insert(const string& source, unsigned int position);
-    void dlt(unsigned int position, unsigned int num);
-    void replace(char c, unsigned int position);
-    void replace(const string& source, unsigned int position);
+    string& string::operator =(const string& source){
+        
+    }
+    void string::insert(const string& source, unsigned int position){
+        assert(position <=current_length);
+        
+        current_length += source.length();
+        allocated = current_length+1;
+        
+        for(int i = 0; i<source.length(); i++){
+            characters[current_length+1] = source[i];
+        }
+        
+    }
+    
+    void string::dlt(unsigned int position, unsigned int num){
+        assert(position+num <= current_length);
+        
+        current_length -= num;
+        allocated = current_length+1;
+        
+        for(int i = position; i < num; i++){
+            characters[i] = characters[i+1];
+        }
+    }
+    
+    void string::replace(char c, unsigned int position){
+        assert(position < current_length);
+        
+        characters[current_length] = c;
+    }
+    void string::replace(const string& source, unsigned int position){
+        assert(position+source.length() < current_length);
+        
+        current_length += source.length();
+        allocated = current_length+1;
+        
+        for(int j = 0; j < source.length(); j++){
+            for(int i = position; i < current_length; i++){
+                characters[i] = source[j];
+            }
+        }
+    }
     
     // CONSTANT MEMBER FUNCTIONS
-    size_t length( ) const { return current_length; }
-    char operator [ ](size_t position) const;
-    int search(char c) const;
-    int search(const string& substring) const;
-    unsigned int count(char c) const;
+    size_t string::length( ) const {
+        return current_length;
+    }
+    
+    char string::operator [ ](size_t position) const{
+        assert(position < current_length);
+        return characters[position];
+    }
+    
+    int string::search(char c) const{
+        for(int i = 0; i<current_length; i++){
+            if(characters[i] == c){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    int string::search(const string& substring) const{
+        std::string characters1 = characters;
+        
+        size_t found = characters1.find(substring);
+        
+        
+    }
+    
+    unsigned int string::count(char c) const{
+        
+    }
 
 }
 
