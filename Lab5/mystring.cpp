@@ -18,9 +18,9 @@ namespace coen79_lab5{
         allocated = current_length+1;
         characters = new char[allocated];
         strncpy(characters, str, sizeof(*str));
-    };
+    }
     
-    string::string(char c){ // NEW FUNCTION 1
+    string::string(char c){
         current_length = 1;
         allocated = current_length+1;
         characters = new char[allocated];
@@ -32,7 +32,7 @@ namespace coen79_lab5{
         current_length = source.length();
         allocated = current_length+1;
         characters = new char[allocated];
-
+        
         for(int i = 0; i < sizeof(source); i++){
             characters[i] = source[i];
         }
@@ -71,13 +71,17 @@ namespace coen79_lab5{
         if(n < allocated){
             n = allocated;
         }
-        *new characters = new [n];
-        copy(characters, characters+allocated, n);
+        allocated += n;
+        char *new_characters = new char [n];
+        std::copy(characters, characters+n, new_characters);
+        
     }
     
     string& string::operator =(const string& source){
-        
+        string temp(source);
+        return temp;
     }
+    
     void string::insert(const string& source, unsigned int position){
         assert(position <=current_length);
         
@@ -106,11 +110,10 @@ namespace coen79_lab5{
         
         characters[current_length] = c;
     }
+    
     void string::replace(const string& source, unsigned int position){
         assert(position+source.length() < current_length);
-        
-        current_length += source.length();
-        allocated = current_length+1;
+        reserve(source.length());
         
         for(int j = 0; j < source.length(); j++){
             for(int i = position; i < current_length; i++){
@@ -139,16 +142,91 @@ namespace coen79_lab5{
     }
     
     int string::search(const string& substring) const{
-        std::string characters1 = characters;
-        
-        size_t found = characters1.find(substring);
-        
+        std::string temp = characters;
+        int found = temp.find(substring);
+        if (found != string::npos){
+            return found;
+        }
         
     }
     
     unsigned int string::count(char c) const{
+        unsigned int total = 0;
+        for(int i = 0; i < current_length; i++){
+            if(characters[i] == c){
+                total++;
+            }
+        }
+        return total;
+    }
+    
+    std::ostream& operator <<(std::ostream& outs, const string& source){
+        for(int i = 0; i<source.length(); i++){
+            outs << source[i];
+        }
+        return outs;
+    }
+    
+    bool operator ==(const string& s1, const string& s2){
+        return(strcmp(s1.characters, s2.characters) == 0);
+    }
+    
+    bool operator !=(const string& s1, const string& s2){
+        return(strcmp(s1.characters, s2.characters) != 0);
+    }
+    
+    bool operator > (const string& s1, const string& s2){
+        if(s1.length()>s2.length()){
+            return true;
+        }
+        return false;
+    }
+    
+    bool operator < (const string& s1, const string& s2){
+        if(s1.length()<s2.length()){
+            return true;
+        }
+        return false;
+    }
+    
+    bool operator >=(const string& s1, const string& s2){
+        if(s1.length()>=s2.length()){
+            return true;
+        }
+        return false;
+    }
+    
+    bool operator <=(const string& s1, const string& s2){
+        if(s1.length()<=s2.length()){
+            return true;
+        }
+        return false;
+    }
+    
+    string operator +(const string& s1, const string& s2){
+        string temp = s1;
+        temp+=(s2);
+        return temp;
+    }
+    
+    string operator +(const string& s1, const char addend[ ]){
+        string temp = s1;
+        temp+=(addend);
+        return temp;
+    }
+    
+    std::istream& operator >> (std::istream& ins, string& target){
+        size_t i = 0;
+        while(ins && isspace(ins.peek())){
+            ins.ignore();
+            i++;
+        }
+        
         
     }
-
+    
+    
+    
+    
 }
 

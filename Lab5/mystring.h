@@ -74,7 +74,7 @@
 //     the given substring inside of this string. If the substring is not found,
 //     this function returns -1.
 //
-//   unsigned int cout(char c) const
+//   unsigned int count(char c) const
 //     Postcondition: The count of the occurence of the character c within this
 //     string is returned.
 //
